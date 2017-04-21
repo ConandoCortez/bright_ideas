@@ -1,0 +1,23 @@
+
+<div class="container">
+    <div class="btn-group-vertical pull-right">
+        <a href="/bright_ideas">Bright Ideas</a> | <a href="/logout">Logout</a>
+    </div>
+    <h3><%= @idea.user.alias %> says:</h3> <div class="well"><%= @idea.content%> </div>
+    <h4>People who liked this post:</h4>
+    <table class="table table-hover">
+        <thead>
+            <th>Alias</th>
+            <th>Name</th>
+        </thead>
+        <tbody>
+            <% @liked_idea.each do |user| %>
+            <tr>
+                <td><a href="/users/<%=user.user_id%>"><%=user.user.alias%></a></td>
+                <td><%=user.user.name%></td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+
+</div>

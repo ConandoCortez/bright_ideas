@@ -1,0 +1,57 @@
+
+
+<h1>Hi <%= @user[:alias] %>!</h1>
+
+
+<div class="container">
+    <div class="btn-group-vertical pull-right">
+        <a href="/logout">Logout</a>
+    </div>
+    <%if flash[:errors] %>
+        <%flash[:errors].each do |error| %>
+            <p class="alert alert-danger"><%= error %></p>
+        <% end %>
+    <% end %>
+    <form action="/ideas/add" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <div class="form-group">
+            <input type="text" name="content" placeholder="Post something witty here..." class="form-control">
+            <input type="submit" value="Idea!" class="btn btn-default">
+        </div>
+    </form>
+    <% @liked_ideas.each do |idea| %>
+        <div class="well">
+            <a href="/users/<%=idea.user.id %>"><%=idea.user.alias %></a> says: <%= idea.content %>
+        </div>
+        <p> <a href="/bright_ideas/<%=idea.id%>"><%= idea.likes.count %> people</a> like this.
+            <% if @likes.any? {|like| like.idea_id == idea.id}%>
+                <a href="/users/<%= @user.id %>/ideas/<%=idea.id%>/unlike">Unlike</a>
+            <% else %>
+                <a href="/users/<%= @user.id %>/ideas/<%=idea.id%>/like">Like</a>
+            <% end %>
+            <!-- If the session user is the one that wrote the post, add a delete button -->
+            <% if idea.user_id == @user.id %>
+                <a href="/ideas/<%=idea.id%>/destroy" class="btn btn-danger">Delete</a>
+            <% end %>
+        </p>
+    <% end %>
+    <% @ideas.each do |idea| %>
+        <!-- Used another query in order to access all the ideas with 0 likes -->
+        <% if idea.likes.count == 0 %>
+            <div class="well">
+                <a href="/users/<%=idea.user.id %>"><%=idea.user.alias %></a> says: <%= idea.content %>
+            </div>
+            <p> <a href="/bright_ideas/<%=idea.id%>"><%= idea.likes.count %> people</a> like this.
+                <% if @likes.any? {|like| like.idea_id == idea.id}%>
+                    <a href="/users/<%= @user.id %>/ideas/<%=idea.id%>/unlike">Unlike</a>
+                <% else %>
+                    <a href="/users/<%= @user.id %>/ideas/<%=idea.id%>/like">Like</a>
+                <% end %>
+                <!-- If the session user is the one that wrote the post, add a delete button -->
+                <% if idea.user_id == @user.id %>
+                    <a href="/ideas/<%=idea.id%>/destroy" class="btn btn-danger">Delete</a>
+                <% end %>
+            </p>
+        <% end %>
+    <% end %>
+</div>

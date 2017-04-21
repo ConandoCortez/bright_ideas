@@ -1,0 +1,12 @@
+
+<div class="container">
+    <div class="btn-group-vertical pull-right">
+        <a href="/bright_ideas">Bright Ideas</a> | <a href="/logout">Logout</a>
+    </div>
+    <h3>Name: <%= @user.name %></h3>
+    <h3>Alias: <%= @user.alias %></h3>
+    <h3>Email: <%= @user.email %></h3>
+    <hr style="color:black; height: 1px; background-color: black"/>
+    <h4>Total Number of Ideas: <%= @user.ideas.count%></h4>
+    <h4>Total Number of Likes: <%= @user.ideas_liked.count%></h4>
+</div>
